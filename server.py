@@ -154,18 +154,32 @@ def run_audit(contract_path: str, run_id: str) -> dict:
         str(MEDUSA_TIMEOUT)
     ]
     
-    result = subprocess.run(
-        cmd,
-        env=env,
-        capture_output=True,
-        text=True,
-        timeout=MEDUSA_TIMEOUT + 30  # Extra buffer
-    )
+    print(f"Running audit with command: {' '.join(cmd)}")
+    print(f"Artifacts will be in: {run_artifacts}")
     
-    if result.returncode != 0:
-        raise RuntimeError(f"Audit failed: {result.stderr}")
+    try:
+        result = subprocess.run(
+            cmd,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=MEDUSA_TIMEOUT + 30,  # Extra buffer
+            cwd="/app"
+        )
+        
+        print(f"Audit exit code: {result.returncode}")
+        print(f"Stdout length: {len(result.stdout)}")
+        print(f"Stderr length: {len(result.stderr)}")
+        
+        if result.returncode != 0:
+            error_msg = result.stderr or result.stdout or "Unknown error"
+            print(f"Audit failed with: {error_msg[:500]}")
+            raise RuntimeError(f"Audit failed (code {result.returncode}): {error_msg[:500]}")
+        
+        return {"stdout": result.stdout, "stderr": result.stderr}
     
-    return {"stdout": result.stdout, "stderr": result.stderr}
+    except subprocess.TimeoutExpired as e:
+        raise RuntimeError(f"Audit timed out after {MEDUSA_TIMEOUT + 30}s")
 
 
 def check_medusa() -> bool:
