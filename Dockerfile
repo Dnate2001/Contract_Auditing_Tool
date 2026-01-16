@@ -71,6 +71,6 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python3 -c "import sys; sys.exit(0)" || exit 1
 
-# Default command: CLI mode
-ENTRYPOINT ["python3"]
-CMD ["auditor_ai.py", "5"]
+# Default: CLI mode (docker-compose overrides for service mode)
+CMD ["python3", "auditor_ai.py", "5"]
+
