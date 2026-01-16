@@ -11,7 +11,7 @@ pip3 install --user --break-system-packages google-generativeai
 ### 2. Set Your API Key
 
 ```bash
-export GEMINI_API_KEY="AIzaSyDkSYwAHhwCzG0vNUmgQ9joJ4pQ6unz5tI"
+export GEMINI_API_KEY="YOUR_API_KEY_HERE"
 ```
 
 ### 3. Run the Auditor

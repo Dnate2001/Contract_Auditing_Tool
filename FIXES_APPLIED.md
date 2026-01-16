@@ -63,7 +63,7 @@ The tool is now **100% demo-ready** with:
 ## 🧪 Test It
 
 ```bash
-export GEMINI_API_KEY="AIzaSyDkSYwAHhwCzG0vNUmgQ9joJ4pQ6unz5tI"
+export GEMINI_API_KEY="YOUR_API_KEY_HERE"
 python3 auditor_ai.py 10
 ```
 
