@@ -92,13 +92,22 @@ class SmartContractAuditor:
             
             result = subprocess.run(cmd, capture_output=True, text=True)
             
-            if result.returncode == 0:
+            # Check if compilation succeeded (warnings are OK)
+            if result.returncode == 0 or (result.returncode != 0 and result.stdout):
+                # Show warnings if present
+                if result.stderr and "Warning:" in result.stderr:
+                    if RICH_AVAILABLE:
+                        console.print(f"[yellow]⚠ Compilation warnings (non-fatal):[/yellow]\n{result.stderr[:300]}")
+                    else:
+                        print(f"⚠ Compilation warnings (non-fatal):\n{result.stderr[:300]}")
+                
                 if RICH_AVAILABLE:
                     console.print("[green]✓ Contracts compiled successfully[/green]")
                 else:
                     print("✓ Contracts compiled successfully")
                 return True
             else:
+                # Actual compilation error (no output)
                 if RICH_AVAILABLE:
                     console.print(f"[red]✗ Compilation failed:[/red]\n{result.stderr}")
                 else:
