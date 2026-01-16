@@ -171,12 +171,15 @@ def run_audit(contract_path: str, run_id: str) -> dict:
         print(f"Stdout length: {len(result.stdout)}")
         print(f"Stderr length: {len(result.stderr)}")
         
-        if result.returncode != 0:
+        # Success if exit code is 0 (warnings are written to stderr but don't fail)
+        if result.returncode == 0:
+            print("Audit completed successfully")
+            return {"stdout": result.stdout, "stderr": result.stderr}
+        else:
+            # Non-zero exit code - this is a real failure
             error_msg = result.stderr or result.stdout or "Unknown error"
             print(f"Audit failed with: {error_msg[:500]}")
             raise RuntimeError(f"Audit failed (code {result.returncode}): {error_msg[:500]}")
-        
-        return {"stdout": result.stdout, "stderr": result.stderr}
     
     except subprocess.TimeoutExpired as e:
         raise RuntimeError(f"Audit timed out after {MEDUSA_TIMEOUT + 30}s")
