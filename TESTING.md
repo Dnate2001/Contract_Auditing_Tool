@@ -1,94 +1,93 @@
-# Testing & Verification
+# TESTING & VERIFICATION (Manual & Docker)
 
-## Docker Build & Run
+This document lists commands to verify CLI and Docker behavior and parity with the auditor.
 
-### Build from scratch
+## Prerequisites
+
+- Python 3.8+ and pip (for manual mode)
+- Docker & docker-compose installed (for Docker mode)
+- jq installed locally for JSON formatting (optional)
+- Optional: Foundry/Hardhat for running reproducers locally
+
+## Manual (Local) Test
+
 ```bash
+# Setup venv and deps
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Run auditor (example duration 60s)
+python3 auditor_ai.py 60
+```
+
+## Docker Test (CLI in container)
+
+```bash
+docker-compose down -v
 docker-compose build --no-cache
-```
-
-### Run service
-```bash
-docker-compose up -d
-```
-
-### Check container status
-```bash
-docker-compose ps
-```
-
-**Expected**: `contract-auditor` shows `Up` state
-
-## Health Check
-
-```bash
-curl http://localhost:8080/health | jq
-```
-
-**Expected Output**:
-```json
-{
-  "status": "healthy",
-  "mode": "simulation",
-  "medusa_available": true,
-  "solc_available": true,
-  "timestamp": "2026-01-16T12:00:00.000000"
-}
-```
-
-## Audit Request
-
-```bash
-curl -X POST http://localhost:8080/audit \
-  -F "file=@contracts/BrokenToken.sol" | jq
-```
-
-**Expected Output**:
-```json
-{
-  "run_id": "20260116_120000",
-  "status": "completed",
-  "vulnerabilities_found": 5,
-  "report_path": "/tmp/artifacts/20260116_120000/report.json",
-  "sarif_path": null,
-  "execution_time": 12.5,
-  "mode": "simulation"
-}
+docker-compose run --rm contract-auditor python3 auditor_ai.py 60
 ```
 
 ## Inspect Artifacts
 
 ```bash
-docker exec contract-auditor ls -la /tmp/artifacts/<run_id>/
+# Artifacts are written to data/artifacts/
+ls -la data/artifacts
+
+# Inspect compile.json and report
+jq . data/artifacts/<job_id>/compile.json
+jq . data/artifacts/<job_id>/report.json
 ```
 
-**Expected Files**:
-- `report.json`
-- `report.sarif.json` (if SARIF export enabled)
+## Handling Compile Warnings
 
-## View Logs
+The CLI pipeline persists compiler warnings in `artifacts/<job_id>/compile.json`.
+
+Warnings should not cause the audit to exit with a fatal status when they are informational (for example: deprecation warnings such as `selfdestruct`).
+
+## CLI Parity Test
+
+Ensure behavior parity by running:
 
 ```bash
-docker-compose logs auditor
+# Run auditor locally in container
+docker run --rm -v $(pwd):/app -w /app contract-auditor python3 auditor_ai.py 10
 ```
 
-**Expected**: 
-- No `python3: can't open file '/app/python3'` errors
-- JSON-formatted log lines (if structured logging enabled)
-- Service starts successfully
+Compare output to the manual run.
 
-## CLI Mode Test
+## Unit Tests
 
 ```bash
-docker run --rm contract-auditor
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+pytest -q
 ```
 
-**Expected**: Runs audit in CLI mode (default command)
+## Expected Behavior
 
-## Cleanup
+### Successful Audit
+- Exit code: 0
+- Artifacts created in `data/artifacts/<run_id>/`
+- Report files: `report.json`, `report.md`
+- Compile warnings logged but not fatal
 
-```bash
-docker-compose down -v
-```
+### Failed Audit
+- Exit code: 1
+- Error message displayed
+- Partial artifacts may exist
 
-Removes containers and volumes.
+## Troubleshooting
+
+### Docker Issues
+- Ensure Docker daemon is running
+- Check `docker-compose ps` for container status
+- View logs: `docker-compose logs auditor`
+
+### Permission Errors
+- Ensure `/data/artifacts` is writable
+- Check user permissions in Dockerfile
+
+### Missing Dependencies
+- Verify all requirements installed: `pip list`
+- Rebuild Docker image: `docker-compose build --no-cache`

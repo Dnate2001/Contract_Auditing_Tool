@@ -1,8 +1,14 @@
 # Architecture & Operational Flow - Contract Auditing Tool
 
-## Architecture Summary
+## Architecture & Data Flow
 
-The Contract Auditing Tool is a hybrid fuzzing + AI analysis system that combines Medusa property-based testing with Google Gemini AI to detect and explain smart contract vulnerabilities. The architecture follows a pipeline: fuzzing generates crash sequences, a parser extracts canonical findings, an AI analyzer provides human-readable explanations, an evidence validator prevents hallucinations by grounding AI output in actual call traces, a reproducer generator creates Foundry tests, and exporters produce SARIF/JSON reports for CI/CD integration. The system gracefully degrades to simulation mode when API keys are unavailable, ensuring zero-downtime operation.
+## Overview
+
+The Smart Contract Security Auditor combines symbolic fuzzing with AI-powered analysis to detect vulnerabilities in Solidity smart contracts. The system operates in a pipeline architecture with distinct phases for compilation, fuzzing, analysis, and reporting. The architecture follows a pipeline: fuzzing generates crash sequences, a parser extracts canonical findings, an AI analyzer provides human-readable explanations, an evidence validator prevents hallucinations by grounding AI output in actual call traces, a reproducer generator creates Foundry tests, and exporters produce SARIF/JSON reports for CI/CD integration. The system gracefully degrades to simulation mode when API keys are unavailable, ensuring zero-downtime operation.
+
+## Compilation Behavior
+
+The auditor treats Solidity compiler warnings as non-fatal and continues the audit pipeline. Warnings (such as deprecation notices for `selfdestruct`) are logged to `artifacts/<job_id>/compile.json` for review but do not cause the audit to exit with a failure status. This ensures CLI and Docker modes maintain consistent behavior: only actual compilation errors (missing files, syntax errors) will halt the audit. This design choice allows the auditor to analyze contracts using deprecated features while still documenting the warnings for developer awareness.
 
 ## End-to-End Dataflow
 

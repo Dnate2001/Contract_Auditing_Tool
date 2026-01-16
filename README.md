@@ -1,25 +1,59 @@
-# 🛡️ Smart Contract Security Auditor
+# 🛡️# Smart Contract Security Auditor
 
-AI-powered security auditing tool that combines fuzzing, machine learning, and automated test generation to find vulnerabilities in Solidity smart contracts.
+AI-powered vulnerability detection for Solidity smart contracts using symbolic fuzzing and machine learning.
 
-## ⚡ Quick Start
+## Features
+
+- **Hybrid Detection**: Uses symbolic fuzzing (Medusa) to find deep logic bugs
+- **AI Analysis**: Gemini-powered vulnerability classification and impact assessment
+- **Evidence Validation**: Cross-references AI findings with actual fuzzing results
+- **Professional Reports**: Generates detailed markdown and JSON reports with remediation guidance
+- **Reproducer Generation**: Creates PoC exploit scripts for verified vulnerabilities
+
+## Docker & Manual Quickstart
+
+This project supports two run modes: **Manual (local/CLI)** and **Docker (containerized CLI)**. There is no HTTP service documented in this distribution — run the auditor directly via CLI or inside Docker.
+
+### Manual (Local) Quickstart
+
+Run the auditor from your development environment (requires Python and dependencies):
 
 ```bash
-# Clone and setup
-git clone https://github.com/Dnate2001/Contract_Auditing_Tool
-cd Contract_Auditing_Tool
+# create venv and install
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
 
-# Install dependencies
-pip3 install rich google-generativeai pytest
-
-# Run audit (simulation mode)
-python3 auditor_ai.py 5
-
-# View results
-cat audit_report.md
+# Run auditor locally with a 60s timeout (example)
+python3 auditor_ai.py 60
 ```
 
-See [docs/quickstart.md](docs/quickstart.md) for detailed setup.
+### Docker Quickstart
+
+```bash
+# Stop any previous containers
+docker-compose down -v
+
+# Build image (no-cache recommended first run)
+docker-compose build --no-cache
+
+# Run CLI audit inside container (example timeout 60s)
+docker-compose run --rm contract-auditor python3 auditor_ai.py 60
+```
+
+### Verify Artifacts
+
+After running an audit, artifacts are created under `data/artifacts/<run_id>/`.
+
+Typical artifacts:
+- `findings.json` — canonical findings
+- `compile.json` — compile warnings/info
+- `report.json` — final report
+
+### Notes & Troubleshooting
+
+- The CLI does not treat compiler warnings as fatal. Warnings are persisted to `artifacts/<job>/compile.json` and the pipeline continues.
+- If Docker image lacks Medusa or solc, mount host binaries into the container using environment variables or volumes (see `.env.example`).
+- Use `.env` for runtime configuration and **do not commit actual API keys** into the repository. See `.env.example`.
 
 ## 🎯 Features
 
