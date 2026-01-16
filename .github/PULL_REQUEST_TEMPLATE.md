@@ -28,6 +28,24 @@ assignees: ''
 - [ ] Documentation updated (if applicable)
 - [ ] CHANGELOG.md updated (if applicable)
 
+### Demo Mode Security (if applicable)
+
+- [ ] `DEMO_MODE` defaults to `false` in `.env.example`
+- [ ] No real credentials in `.env.example` (only placeholders)
+- [ ] HTTP Basic Auth enforced on all demo endpoints
+- [ ] TTL auto-shutdown implemented (3 hours default)
+- [ ] Warning banners displayed
+- [ ] Demo documentation includes security warnings
+
+### Demo Mode Security (if applicable)
+
+- [ ] `DEMO_MODE` defaults to `false` in `.env.example`
+- [ ] No real credentials in `.env.example` (only placeholders)
+- [ ] HTTP Basic Auth enforced on all demo endpoints
+- [ ] TTL auto-shutdown implemented
+- [ ] Warning banners displayed
+- [ ] Demo documentation includes security warnings
+
 ## Testing
 
 <!-- Describe how you tested these changes -->

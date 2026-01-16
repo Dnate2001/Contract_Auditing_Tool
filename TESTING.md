@@ -64,6 +64,109 @@ pip install -r requirements.txt
 pytest -q
 ```
 
+---
+
+## ngrok Demo Mode Verification
+
+> [!WARNING]
+> Demo mode exposes a public endpoint. Only use for temporary testing.
+
+### Start Demo
+
+```bash
+# Configure .env first
+cp .env.example .env
+# Edit: set NGROK_AUTHTOKEN, DEMO_USER, DEMO_PASS
+
+# Start demo (3-hour auto-shutdown)
+bash scripts/start_ngrok_demo.sh
+```
+
+### Test Endpoints
+
+```bash
+# Health check (requires auth)
+curl -u demo_user:your_password https://xxx.ngrok.io/health
+
+# Audit request
+curl -u demo_user:your_password \
+  -X POST https://xxx.ngrok.io/audit \
+  -F "file=@contracts/BrokenToken.sol"
+```
+
+### Verify Security
+
+- [ ] Unauthenticated requests return 401
+- [ ] Wrong credentials return 401
+- [ ] CIDR restrictions work (if configured)
+- [ ] Server auto-shuts down after 3 hours
+- [ ] Artifacts isolated to `/tmp/artifacts_demo/`
+- [ ] Warning banner displayed on startup
+
+### Revoke Tunnel
+
+```bash
+# Kill processes
+pkill -f ngrok
+pkill -f demo_server
+
+# Or use ngrok dashboard
+# https://dashboard.ngrok.com/tunnels/agents
+```
+
+---
+
+---
+
+## ngrok Demo Mode Verification
+
+> [!WARNING]
+> Demo mode exposes a public endpoint. Only use for temporary testing.
+
+### Start Demo
+
+```bash
+# Configure .env first
+cp .env.example .env
+# Edit: set NGROK_AUTHTOKEN, DEMO_USER, DEMO_PASS
+
+# Start demo
+bash scripts/start_ngrok_demo.sh
+```
+
+### Test Endpoints
+
+```bash
+# Health check (requires auth)
+curl -u demo_user:change_me_strong_password https://xxx.ngrok.io/health
+
+# Audit request
+curl -u demo_user:change_me_strong_password \
+  -X POST https://xxx.ngrok.io/audit \
+  -F "file=@contracts/BrokenToken.sol"
+```
+
+### Verify Security
+
+- [ ] Unauthenticated requests return 401
+- [ ] Wrong credentials return 401
+- [ ] CIDR restrictions work (if configured)
+- [ ] Server auto-shuts down after TTL
+- [ ] Artifacts isolated to `/tmp/artifacts_demo/`
+
+### Revoke Tunnel
+
+```bash
+# Kill processes
+pkill -f ngrok
+pkill -f demo_server
+
+# Or use ngrok dashboard
+# https://dashboard.ngrok.com/tunnels/agents
+```
+
+---
+
 ## Expected Behavior
 
 ### Successful Audit

@@ -55,6 +55,90 @@ Typical artifacts:
 - If Docker image lacks Medusa or solc, mount host binaries into the container using environment variables or volumes (see `.env.example`).
 - Use `.env` for runtime configuration and **do not commit actual API keys** into the repository. See `.env.example`.
 
+---
+
+## 🌐 Secure ngrok Demo (OPTIONAL)
+
+> [!WARNING]
+> **Demo mode exposes a public endpoint**. Only use for temporary demos with trusted reviewers.
+
+### Quick Demo
+
+```bash
+# 1. Set up .env with demo credentials
+cp .env.example .env
+# Edit .env: set NGROK_AUTHTOKEN, DEMO_USER, DEMO_PASS
+
+# 2. Start demo (auto-shutdown after 3 hours)
+bash scripts/start_ngrok_demo.sh
+
+# 3. Share the ngrok URL and credentials with reviewers
+
+# 4. Revoke tunnel
+# Tunnel auto-closes after TTL, or manually: pkill -f 'ngrok|demo_server'
+```
+
+### Security Controls
+
+- ✅ HTTP Basic Auth (required)
+- ✅ Optional CIDR IP allow-list
+- ✅ Auto-shutdown after TTL (default 3 hours)
+- ✅ Isolated artifacts directory (`/tmp/artifacts_demo/`)
+- ✅ No real API keys accepted
+- ✅ Audit logs all requests
+
+### Docker Demo
+
+```bash
+docker-compose -f docker-compose.demo.yml up --build
+# In another terminal:
+ngrok http 8080 --authtoken "$NGROK_AUTHTOKEN" --basic-auth "$DEMO_USER:$DEMO_PASS"
+```
+
+---
+
+---
+
+## 🌐 Secure ngrok Demo (OPTIONAL)
+
+> [!WARNING]
+> **Demo mode exposes a public endpoint**. Only use for temporary demos with trusted reviewers.
+
+### Quick Demo
+
+```bash
+# 1. Set up .env with demo credentials
+cp .env.example .env
+# Edit .env: set NGROK_AUTHTOKEN, DEMO_USER, DEMO_PASS
+
+# 2. Start demo (auto-shutdown after 1 hour)
+bash scripts/start_ngrok_demo.sh
+
+# 3. Share the ngrok URL and credentials with reviewers
+
+# 4. Revoke tunnel
+# Tunnel auto-closes after TTL, or manually kill processes
+```
+
+### Security Controls
+
+- ✅ HTTP Basic Auth (required)
+- ✅ Optional CIDR IP allow-list
+- ✅ Auto-shutdown after TTL (default 1 hour)
+- ✅ Isolated artifacts directory
+- ✅ No real API keys accepted
+- ✅ Audit logs all requests
+
+### Docker Demo
+
+```bash
+docker-compose -f docker-compose.demo.yml up --build
+# In another terminal:
+ngrok http 8080 --authtoken "$NGROK_AUTHTOKEN" --basic-auth "$DEMO_USER:$DEMO_PASS"
+```
+
+---
+
 ## 🎯 Features
 
 - **🔍 Fuzzing**: Medusa property-based testing

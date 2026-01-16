@@ -10,3 +10,4 @@ corpus/
 # We exclude the generated reports so the repo stays clean
 audit_report.md
 audit_report.json
+.venv/
