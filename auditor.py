@@ -60,7 +60,7 @@ class SmartContractAuditor:
             header = Text()
             header.append("╔═══════════════════════════════════════════════════════════╗\n", style="bold cyan")
             header.append("║  ", style="bold cyan")
-            header.append("⚡ ANTIGRAVITY SMART CONTRACT AUDITOR", style="bold yellow")
+            header.append("⚡ SMART CONTRACT SECURITY AUDITOR", style="bold yellow")
             header.append("  ⚡  ║\n", style="bold cyan")
             header.append("║  ", style="bold cyan")
             header.append("AI-Powered Vulnerability Detection System", style="italic white")
@@ -70,7 +70,7 @@ class SmartContractAuditor:
             console.print()
         else:
             print("=" * 60)
-            print("⚡ ANTIGRAVITY SMART CONTRACT AUDITOR ⚡")
+            print("⚡ SMART CONTRACT SECURITY AUDITOR ⚡")
             print("AI-Powered Vulnerability Detection System")
             print("=" * 60)
             print()

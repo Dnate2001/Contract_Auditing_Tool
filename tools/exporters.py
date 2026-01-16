@@ -177,7 +177,7 @@ class ReportExporter:
                 {
                     "tool": {
                         "driver": {
-                            "name": "Antigravity Smart Contract Auditor",
+                            "name": "Smart Contract Security Auditor",
                             "version": "1.0.0",
                             "informationUri": "https://github.com/yourusername/antigravity-auditor",
                             "rules": self._generate_sarif_rules()

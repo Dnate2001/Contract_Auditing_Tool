@@ -1,5 +1,5 @@
 """
-🔮 ANTIGRAVITY AI ANALYZER - Evidence-Validated Edition
+🔮 SMART CONTRACT AI ANALYZER - Evidence-Validated Edition
 ---------------------------
 Standalone module for enriching smart contract vulnerabilities with Gemini AI.
 Now includes evidence validation to prevent hallucinations.
@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 # Setup minimal logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("AntigravityAI")
+logger = logging.getLogger("SmartContractAI")
 
 # Soft dependency check
 try:
