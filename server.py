@@ -135,7 +135,13 @@ def run_audit(contract_path: str, run_id: str) -> dict:
     """
     # Create run-specific artifact directory
     run_artifacts = ARTIFACTS_DIR / run_id
-    run_artifacts.mkdir(parents=True, exist_ok=True)
+    try:
+        run_artifacts.mkdir(parents=True, exist_ok=True)
+    except PermissionError:
+        # If we can't create in ARTIFACTS_DIR, it means the fallback didn't work
+        # Use /tmp as final fallback
+        run_artifacts = Path(f"/tmp/artifacts/{run_id}")
+        run_artifacts.mkdir(parents=True, exist_ok=True)
     
     # Set environment variables
     env = os.environ.copy()
