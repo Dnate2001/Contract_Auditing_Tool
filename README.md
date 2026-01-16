@@ -60,7 +60,7 @@ Typical artifacts:
 ## 🌐 Secure ngrok Demo (OPTIONAL)
 
 > [!WARNING]
-> **Demo mode exposes a public endpoint**. Only use for temporary demos with trusted reviewers.
+> **Demo mode exposes a public endpoint**. Only use for temporary demos.
 
 ### Quick Demo
 
@@ -98,27 +98,6 @@ ngrok http 8080 --authtoken "$NGROK_AUTHTOKEN" --basic-auth "$DEMO_USER:$DEMO_PA
 ---
 
 ---
-
-## 🌐 Secure ngrok Demo (OPTIONAL)
-
-> [!WARNING]
-> **Demo mode exposes a public endpoint**. Only use for temporary demos with trusted reviewers.
-
-### Quick Demo
-
-```bash
-# 1. Set up .env with demo credentials
-cp .env.example .env
-# Edit .env: set NGROK_AUTHTOKEN, DEMO_USER, DEMO_PASS
-
-# 2. Start demo (auto-shutdown after 1 hour)
-bash scripts/start_ngrok_demo.sh
-
-# 3. Share the ngrok URL and credentials with reviewers
-
-# 4. Revoke tunnel
-# Tunnel auto-closes after TTL, or manually kill processes
-```
 
 ### Security Controls
 
