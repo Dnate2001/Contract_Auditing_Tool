@@ -20,7 +20,7 @@ services:
       - DATA_DIR=/data
     env_file:
       - .env
-    command: python3 server.py
+    command: ["python3", "server.py"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
