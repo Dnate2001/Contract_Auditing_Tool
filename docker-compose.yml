@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  auditor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: contract-auditor:latest
+    container_name: contract-auditor
+    ports:
+      - "${PORT:-8080}:8080"
+    volumes:
+      - ./data:/data
+      - ./contracts:/app/contracts:ro
+    environment:
+      - MODE=${MODE:-simulation}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - MEDUSA_TIMEOUT=${MEDUSA_TIMEOUT:-60}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DATA_DIR=/data
+    env_file:
+      - .env
+    command: python3 server.py
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Optional: ngrok for public exposure
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: contract-auditor-ngrok
+    command: http auditor:8080
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    ports:
+      - "4040:4040"  # ngrok web interface
+    depends_on:
+      - auditor
+    profiles:
+      - ngrok
+
+volumes:
+  data:
+    driver: local
