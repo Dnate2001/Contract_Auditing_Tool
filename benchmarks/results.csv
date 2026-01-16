@@ -1,0 +1,9 @@
+contract,expected_vulns,found,supported,repro_ok,notes
+UncheckedReturn,1,2,0,2,⚠ False positives: 1
+Reentrancy,1,2,0,2,⚠ False positives: 1
+FrontRunnable,1,2,0,2,⚠ False positives: 1
+SelfDestructVuln,1,2,0,2,⚠ False positives: 1
+AccessBroken,2,2,0,2,✓ Exact match
+OverflowToken,1,2,0,2,⚠ False positives: 1
+UnprotectedInit,1,2,0,2,⚠ False positives: 1
+DelegationVuln,1,2,0,2,⚠ False positives: 1

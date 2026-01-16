@@ -1,0 +1,28 @@
+{
+  "baseline": {
+    "corpus": "corpora/BrokenToken_baseline",
+    "coverage": {
+      "lines_total": 100,
+      "lines_covered": 88,
+      "percentage": 88.0,
+      "branches_total": 50,
+      "branches_covered": 44
+    }
+  },
+  "new": {
+    "corpus": "corpora/BrokenToken",
+    "coverage": {
+      "lines_total": 100,
+      "lines_covered": 77,
+      "percentage": 77.0,
+      "branches_total": 50,
+      "branches_covered": 36
+    }
+  },
+  "delta": {
+    "lines_covered_diff": -11,
+    "percentage_diff": -11.0,
+    "new_branches": -8
+  },
+  "measured_at": "2026-01-16T15:11:15.609045"
+}

@@ -1,0 +1,14 @@
+{
+  "contract": "BrokenToken",
+  "corpus_dir": "corpora/BrokenToken",
+  "replayed_at": "2026-01-16T15:11:06.087891",
+  "sequences_replayed": 2,
+  "coverage": {
+    "lines_total": 100,
+    "lines_covered": 95,
+    "percentage": 95.0,
+    "branches_total": 50,
+    "branches_covered": 40
+  },
+  "failures": []
+}

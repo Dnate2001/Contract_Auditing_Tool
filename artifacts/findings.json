@@ -1,0 +1,58 @@
+[
+  {
+    "type": "Unauthorized Minting",
+    "contract": "BrokenToken",
+    "function": "mint",
+    "line": 45,
+    "description": "Property violated: anyone can mint tokens",
+    "severity": "CRITICAL",
+    "sequence": [
+      {
+        "sender": "0x1234567890123456789012345678901234567890",
+        "target": "BrokenToken",
+        "function": "mint(address,uint256)",
+        "calldata": "0x40c10f19000000000000000000000000abcdefabcdefabcdefabcdefabcdefabcdefabcd0000000000000000000000000000000000000000000000056bc75e2d63100000",
+        "value": 0,
+        "gas": 100000
+      }
+    ],
+    "evidence_files": [
+      "medusa-reports/fixture1.json"
+    ],
+    "raw_trace": "Call trace:\n  BrokenToken.mint(0xabcd..., 100000000000000000000)\n    balanceOf[0xabcd...] += 100000000000000000000\n    totalSupply += 100000000000000000000",
+    "timestamp": "2026-01-16T10:30:45Z",
+    "property_failed": "property_onlyOwnerCanMint"
+  },
+  {
+    "type": "Reentrancy Vulnerability",
+    "contract": "BrokenToken",
+    "function": "transfer",
+    "line": 35,
+    "description": "Reentrancy detected in transfer",
+    "severity": "HIGH",
+    "sequence": [
+      {
+        "sender": "0xattacker1111111111111111111111111111111111",
+        "target": "BrokenToken",
+        "function": "transfer(address,uint256)",
+        "calldata": "0xa9059cbb000000000000000000000000malicious22222222222222222222222222220000000000000000000000000000000000000000000000000de0b6b3a7640000",
+        "value": 0,
+        "gas": 150000
+      },
+      {
+        "sender": "0xmalicious2222222222222222222222222222222",
+        "target": "BrokenToken",
+        "function": "transfer(address,uint256)",
+        "calldata": "0xa9059cbb000000000000000000000000attacker11111111111111111111111111110000000000000000000000000000000000000000000000000de0b6b3a7640000",
+        "value": 0,
+        "gas": 150000
+      }
+    ],
+    "evidence_files": [
+      "medusa-reports/fixture1.json"
+    ],
+    "raw_trace": "Reentrancy detected:\n  transfer() -> external call -> transfer() [REENTRANT]",
+    "timestamp": "2026-01-16T10:31:22Z",
+    "property_failed": "property_transferNoReentrancy"
+  }
+]

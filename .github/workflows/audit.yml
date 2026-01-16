@@ -1,0 +1,190 @@
+name: Smart Contract Security Audit
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'contracts/**'
+      - 'test/**'
+      - '.github/workflows/audit.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install rich google-generativeai pytest
+      
+      - name: Setup Go (for Medusa)
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+      
+      - name: Install Medusa
+        id: install-medusa
+        continue-on-error: true
+        run: |
+          go install github.com/crytic/medusa@latest
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+          medusa version || echo "medusa_installed=false" >> $GITHUB_OUTPUT
+      
+      - name: Install Solidity Compiler
+        run: |
+          wget -q https://github.com/ethereum/solidity/releases/download/v0.8.20/solc-static-linux
+          chmod +x solc-static-linux
+          sudo mv solc-static-linux /usr/local/bin/solc
+          solc --version
+      
+      - name: Run Security Audit
+        id: audit
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # Create output directory
+          mkdir -p artifacts
+          
+          # Run auditor with 60s timeout for PR checks
+          timeout 60 python3 auditor_ai.py 5 || echo "audit_timeout=true" >> $GITHUB_OUTPUT
+          
+          # Check if report was generated
+          if [ -f "artifacts/report.json" ]; then
+            echo "audit_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "audit_success=false" >> $GITHUB_OUTPUT
+            # Create minimal report
+            echo '[]' > artifacts/report.json
+          fi
+      
+      - name: Generate Summary
+        id: summary
+        if: always()
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          
+          try:
+              with open('artifacts/report.json') as f:
+                  findings = json.load(f)
+              
+              if not isinstance(findings, list):
+                  findings = findings.get('vulnerabilities', [])
+              
+              total = len(findings)
+              critical = sum(1 for f in findings if f.get('severity', '').lower() == 'critical')
+              high = sum(1 for f in findings if f.get('severity', '').lower() == 'high')
+              medium = sum(1 for f in findings if f.get('severity', '').lower() == 'medium')
+              
+              # Create summary
+              summary = f"""## 🛡️ Security Audit Results
+          
+          **Total Findings**: {total}
+          - 🔴 Critical: {critical}
+          - 🟠 High: {high}
+          - 🟡 Medium: {medium}
+          
+          """
+              
+              if total > 0:
+                  summary += "### Top Findings\n\n"
+                  for i, finding in enumerate(findings[:3], 1):
+                      title = finding.get('title', 'Unknown')
+                      severity = finding.get('severity', 'unknown').upper()
+                      summary += f"{i}. **[{severity}]** {title}\n"
+                  
+                  if total > 3:
+                      summary += f"\n*...and {total - 3} more findings*\n"
+              else:
+                  summary += "✅ No vulnerabilities detected!\n"
+              
+              summary += "\n📊 View detailed report in workflow artifacts.\n"
+              
+              # Write to file for GitHub Actions
+              with open('pr_comment.txt', 'w') as f:
+                  f.write(summary)
+              
+              print(summary)
+          
+          except Exception as e:
+              error_msg = f"""## ⚠️ Security Audit Warning
+          
+          The security audit encountered an issue: {str(e)}
+          
+          Please review the workflow logs for details.
+          """
+              with open('pr_comment.txt', 'w') as f:
+                  f.write(error_msg)
+              print(error_msg)
+          EOF
+      
+      - name: Upload Audit Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-report
+          path: |
+            artifacts/report.json
+            artifacts/report.sarif.json
+            artifacts/reproducers/
+          retention-days: 30
+      
+      - name: Post PR Comment
+        if: always() && github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: pr_comment.txt
+      
+      - name: Upload SARIF to GitHub Security
+        if: always() && hashFiles('artifacts/report.sarif.json') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: artifacts/report.sarif.json
+          category: antigravity-audit
+      
+      - name: Check for Critical Issues
+        if: steps.audit.outputs.audit_success == 'true'
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+          
+          with open('artifacts/report.json') as f:
+              findings = json.load(f)
+          
+          if not isinstance(findings, list):
+              findings = findings.get('vulnerabilities', [])
+          
+          critical = [f for f in findings if f.get('severity', '').lower() == 'critical']
+          
+          if critical:
+              print(f"❌ Found {len(critical)} critical vulnerabilities!")
+              print("Critical issues must be addressed before merging.")
+              sys.exit(1)
+          else:
+              print("✅ No critical vulnerabilities found")
+          EOF

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Antigravity Smart Contract Auditor",
+          "version": "1.0.0",
+          "informationUri": "https://github.com/yourusername/antigravity-auditor",
+          "rules": [
+            {
+              "id": "unauthorized-minting",
+              "name": "Unauthorized Minting",
+              "shortDescription": {
+                "text": "Unauthorized Minting"
+              },
+              "fullDescription": {
+                "text": "Property violated: anyone can mint tokens"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "smart-contract"
+                ],
+                "precision": "high",
+                "cwe": "CWE-284"
+              }
+            },
+            {
+              "id": "reentrancy-vulnerability",
+              "name": "Reentrancy Vulnerability",
+              "shortDescription": {
+                "text": "Reentrancy Vulnerability"
+              },
+              "fullDescription": {
+                "text": "Reentrancy detected in transfer"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "smart-contract"
+                ],
+                "precision": "high",
+                "cwe": "CWE-841"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "unauthorized-minting",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Property violated: anyone can mint tokens"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/BrokenToken.sol"
+                },
+                "region": {
+                  "startLine": 45,
+                  "snippet": {
+                    "text": "mint"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "confidence": "unknown",
+            "requires_manual_review": true,
+            "reproducer_command": "forge test --match-path 'artifacts/reproducers/finding_1_54753d2e/ReproTest.sol' -vvv"
+          }
+        },
+        {
+          "ruleId": "reentrancy-vulnerability",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Reentrancy detected in transfer"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/BrokenToken.sol"
+                },
+                "region": {
+                  "startLine": 35,
+                  "snippet": {
+                    "text": "transfer"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "confidence": "unknown",
+            "requires_manual_review": true,
+            "reproducer_command": "forge test --match-path 'artifacts/reproducers/finding_2_77367824/ReproTest.sol' -vvv"
+          }
+        }
+      ],
+      "properties": {
+        "contract": "BrokenToken",
+        "generatedAt": "2026-01-16T15:14:03.822657"
+      }
+    }
+  ]
+}

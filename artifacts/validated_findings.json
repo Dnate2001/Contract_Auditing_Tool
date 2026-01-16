@@ -1,0 +1,91 @@
+[
+    {
+        "type": "Unauthorized Minting",
+        "contract": "BrokenToken",
+        "function": "mint(address,uint256)",
+        "line": 45,
+        "description": "Property violated: anyone can mint tokens",
+        "severity": "CRITICAL",
+        "sequence": [
+            {
+                "sender": "0x1234567890123456789012345678901234567890",
+                "target": "BrokenToken",
+                "function": "mint(address,uint256)",
+                "calldata": "0x40c10f19000000000000000000000000abcdefabcdefabcdefabcdefabcdefabcdefabcd0000000000000000000000000000000000000000000000056bc75e2d63100000",
+                "value": 0,
+                "gas": 100000
+            }
+        ],
+        "evidence_files": [
+            "medusa-reports/fixture1.json"
+        ],
+        "raw_trace": "Call trace:\n  BrokenToken.mint(0xabcd..., 100000000000000000000)\n    balanceOf[0xabcd...] += 100000000000000000000\n    totalSupply += 100000000000000000000",
+        "timestamp": "2026-01-16T10:30:45Z",
+        "property_failed": "property_onlyOwnerCanMint",
+        "ai_analysis": {
+            "explanation": "The mint() function lacks access control modifiers like onlyOwner or role-based permissions. This allows any address to call the function and create unlimited tokens, completely breaking the token's economic model.",
+            "impact": "An attacker can mint unlimited tokens to their address, causing hyperinflation, devaluing all existing tokens, and potentially draining liquidity pools or manipulating DeFi protocols that use this token.",
+            "exploit_scenario": "1. Attacker calls mint(attackerAddress, 1000000000 ether)\n2. Attacker receives 1 billion tokens\n3. Attacker dumps tokens on DEX, crashing the price\n4. Legitimate holders lose all value",
+            "recommended_fix": "```solidity\naddress public owner;\n\nmodifier onlyOwner() {\n    require(msg.sender == owner, \"Not authorized\");\n    _;\n}\n\nfunction mint(address _to, uint256 _amount) public onlyOwner {\n    balanceOf[_to] += _amount;\n    totalSupply += _amount;\n    emit Transfer(address(0), _to, _amount);\n}\n```",
+            "prevention": "Always implement access control for privileged functions. Use OpenZeppelin's Ownable or AccessControl contracts. Consider using a multi-sig wallet for critical operations.",
+            "support": "supported",
+            "evidence_links": [
+                "medusa-reports/fixture1.json",
+                "raw_trace"
+            ],
+            "requires_manual_review": false,
+            "validation_details": {
+                "sequence_match": {
+                    "valid": true,
+                    "matched_functions": [
+                        "mint"
+                    ],
+                    "reason": "References 1 actual functions"
+                },
+                "fix_match": {
+                    "valid": true,
+                    "reason": "Fix references actual function 'mint'"
+                },
+                "function_match": {
+                    "valid": true,
+                    "reason": "Explanation correctly references 'mint'"
+                }
+            }
+        }
+    },
+    {
+        "type": "Unknown Vulnerability",
+        "contract": "TestContract",
+        "function": "nonexistent_function()",
+        "line": 0,
+        "description": "Test unsupported case",
+        "severity": "MEDIUM",
+        "sequence": [],
+        "evidence_files": [],
+        "raw_trace": "",
+        "ai_analysis": {
+            "explanation": "[SIMULATION] Analysis unavailable. Heuristic detection of Unknown Vulnerability.",
+            "impact": "[SIMULATION] Potential high severity issue affecting contract integrity.",
+            "exploit_scenario": "[SIMULATION] Attacker interacts with nonexistent_function() to trigger failure.",
+            "recommended_fix": "// Implement Checks-Effects-Interactions pattern and validate all inputs.",
+            "prevention": "Use formal verification tools and standard libraries (OpenZeppelin).",
+            "support": "simulated",
+            "evidence_links": [],
+            "requires_manual_review": true,
+            "validation_details": {
+                "sequence_match": {
+                    "valid": false,
+                    "reason": "No sequence data"
+                },
+                "fix_match": {
+                    "valid": false,
+                    "reason": "No fix or source code"
+                },
+                "function_match": {
+                    "valid": false,
+                    "reason": "No function name"
+                }
+            }
+        }
+    }
+]

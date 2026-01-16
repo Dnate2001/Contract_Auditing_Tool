@@ -1,0 +1,44 @@
+{
+    "contract": "BrokenToken",
+    "function": "executeArbitrary",
+    "property": "property_noArbitraryExecution",
+    "error": "Delegatecall to untrusted contract",
+    "call_sequence": [
+        {
+            "from": "0xattacker",
+            "to": "BrokenToken",
+            "method": "executeArbitrary",
+            "data": "0xmalicious",
+            "value": 0
+        }
+    ],
+    "timestamp": "2026-01-16T10:32:10Z"
+}
+{
+    "contract": "BrokenToken",
+    "function": "claimRandomReward",
+    "assertion": "property_randomnessNotPredictable",
+    "message": "Weak randomness: block.timestamp used",
+    "calls": [
+        "claimRandomReward()"
+    ],
+    "timestamp": "2026-01-16T10:33:05Z"
+}
+{
+    "target_contract": "BrokenToken",
+    "failing_function": "destroy",
+    "property": "property_contractNotDestructible",
+    "revert_reason": "Selfdestruct called by non-owner",
+    "transactions": [
+        {
+            "caller": "0xmalicious",
+            "contract": "BrokenToken",
+            "signature": "destroy(address)",
+            "input": "0x00c55d40000000000000000000000000attacker1111111111111111111111111111111",
+            "amount": 0,
+            "gas_limit": 50000
+        }
+    ],
+    "stack_trace": "selfdestruct(0xattacker) called",
+    "timestamp": "2026-01-16T10:34:00Z"
+}

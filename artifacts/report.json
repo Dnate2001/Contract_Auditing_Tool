@@ -1,0 +1,46 @@
+[
+  {
+    "id": "54753d2e447c4e2c",
+    "title": "Unauthorized Minting in mint",
+    "description": "Property violated: anyone can mint tokens",
+    "severity": "critical",
+    "contract": "BrokenToken",
+    "function": "mint",
+    "line": 45,
+    "evidence_files": [
+      "medusa-reports/fixture1.json"
+    ],
+    "confidence": "unknown",
+    "requires_manual_review": true,
+    "cwe": "CWE-284",
+    "suggested_fix": "",
+    "explanation": "",
+    "impact": "",
+    "exploit_scenario": "",
+    "prevention": "",
+    "reproducer_command": "forge test --match-path 'artifacts/reproducers/finding_1_54753d2e/ReproTest.sol' -vvv",
+    "timestamp": "2026-01-16T10:30:45Z"
+  },
+  {
+    "id": "773678240c497de7",
+    "title": "Reentrancy Vulnerability in transfer",
+    "description": "Reentrancy detected in transfer",
+    "severity": "high",
+    "contract": "BrokenToken",
+    "function": "transfer",
+    "line": 35,
+    "evidence_files": [
+      "medusa-reports/fixture1.json"
+    ],
+    "confidence": "unknown",
+    "requires_manual_review": true,
+    "cwe": "CWE-841",
+    "suggested_fix": "",
+    "explanation": "",
+    "impact": "",
+    "exploit_scenario": "",
+    "prevention": "",
+    "reproducer_command": "forge test --match-path 'artifacts/reproducers/finding_2_77367824/ReproTest.sol' -vvv",
+    "timestamp": "2026-01-16T10:31:22Z"
+  }
+]
