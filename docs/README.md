@@ -7,31 +7,28 @@ This directory contains comprehensive documentation for the Smart Contract Secur
 
 ## Architecture & Operations
 - **[FLOW.md](FLOW.md)** - Complete architecture, dataflow, and operational runbook
-- **[CI_CD.md](CI_CD.md)** - GitHub Actions integration and automation
 
 ## Tools Documentation
-- **[MEDUSA_PARSER.md](MEDUSA_PARSER.md)** - Fuzzing output parser
 - **[REPRODUCER_GENERATOR.md](REPRODUCER_GENERATOR.md)** - Foundry test generator
-- **[PROPERTY_GENERATOR.md](PROPERTY_GENERATOR.md)** - Auto-generate fuzzing properties
 - **[CORPUS_MANAGER.md](CORPUS_MANAGER.md)** - Corpus collection and replay
-- **[EXPORTERS.md](EXPORTERS.md)** - JSON and SARIF v2.1 export
 
 ## Quality Assurance
 - **[QA.md](QA.md)** - Testing, linting, and quality infrastructure
 - **[BENCHMARKS.md](BENCHMARKS.md)** - Benchmark suite results and analysis
 - **[UI_VALIDATION_REPORT.md](UI_VALIDATION_REPORT.md)** - UI validation results
-- **[API_FAILURE_TEST.md](API_FAILURE_TEST.md)** - Graceful degradation testing
 
 ## Setup & Configuration
 - **[GEMINI_SETUP.md](GEMINI_SETUP.md)** - Google Gemini AI integration
 - **[SECURITY_INCIDENT.md](SECURITY_INCIDENT.md)** - Security incident response guide
+- **[PRODUCTION_CHECKLIST.md](PRODUCTION_CHECKLIST.md)** - Production deployment checklist
+
+## Docker & Deployment
+- **[DOCKER_SUMMARY.md](DOCKER_SUMMARY.md)** - Docker deployment summary
+- **[DOCKER_QUICKREF.md](DOCKER_QUICKREF.md)** - Docker quick reference
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment guide
 
 ## Legacy/Reference
 - **[DEMO.md](DEMO.md)** - Original demo walkthrough
-- **[GEMINI_FIX.md](GEMINI_FIX.md)** - Historical Gemini fixes
-- **[FIXES_APPLIED.md](FIXES_APPLIED.md)** - Applied fixes log
-- **[GIT_PUSH.md](GIT_PUSH.md)** - Git push instructions
-- **[GITHUB_PUSH.md](GITHUB_PUSH.md)** - GitHub push guide
 
 ## Navigation
 

@@ -2,6 +2,17 @@
 
 AI-powered vulnerability detection for Solidity smart contracts using symbolic fuzzing and machine learning.
 
+## Architecture
+
+![Architecture Flow](docs/architecture_flow.png)
+
+The auditor follows a three-stage pipeline:
+1. **Compilation** - Validates Solidity code and checks for compiler warnings
+2. **Fuzzing** - Uses Medusa to discover vulnerabilities through property-based testing  
+3. **AI Analysis** - Leverages Google Gemini to provide detailed vulnerability reports with exploit scenarios and fixes
+
+Optional **Demo Mode** allows temporary public access via ngrok with HTTP Basic Auth and auto-shutdown.
+
 ## Features
 
 - **Hybrid Detection**: Uses symbolic fuzzing (Medusa) to find deep logic bugs
