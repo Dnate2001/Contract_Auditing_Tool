@@ -20,7 +20,6 @@ This directory contains comprehensive documentation for the Smart Contract Secur
 ## Setup & Configuration
 - **[GEMINI_SETUP.md](GEMINI_SETUP.md)** - Google Gemini AI integration
 - **[SECURITY_INCIDENT.md](SECURITY_INCIDENT.md)** - Security incident response guide
-- **[PRODUCTION_CHECKLIST.md](PRODUCTION_CHECKLIST.md)** - Production deployment checklist
 
 ## Docker & Deployment
 - **[DOCKER_SUMMARY.md](DOCKER_SUMMARY.md)** - Docker deployment summary
@@ -40,7 +39,6 @@ This directory contains comprehensive documentation for the Smart Contract Secur
 **For Developers**:
 1. Review [FLOW.md](FLOW.md) for architecture
 2. Check [QA.md](QA.md) for testing
-3. See [CI_CD.md](CI_CD.md) for automation
 
 **For Security Engineers**:
 1. Read [BENCHMARKS.md](BENCHMARKS.md) for validation
