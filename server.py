@@ -23,8 +23,14 @@ ARTIFACTS_DIR = DATA_DIR / "artifacts"
 MODE = os.getenv("MODE", "simulation")
 MEDUSA_TIMEOUT = int(os.getenv("MEDUSA_TIMEOUT", "60"))
 
-# Ensure directories exist
-ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+# Ensure directories exist (gracefully handle permission issues)
+try:
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+except PermissionError:
+    # Fallback to tmp if /data is not writable
+    print(f"Warning: Cannot write to {ARTIFACTS_DIR}, using /tmp/artifacts")
+    ARTIFACTS_DIR = Path("/tmp/artifacts")
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 
 app = FastAPI(
     title="Smart Contract Security Auditor API",

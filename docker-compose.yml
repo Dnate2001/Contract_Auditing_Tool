@@ -10,8 +10,9 @@ services:
     ports:
       - "${PORT:-8080}:8080"
     volumes:
-      - ./data:/data
+      - auditor-data:/data
       - ./contracts:/app/contracts:ro
+    user: "1000:1000"  # Match auditor user in Dockerfile
     environment:
       - MODE=${MODE:-simulation}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
@@ -52,5 +53,5 @@ services:
       - ngrok
 
 volumes:
-  data:
+  auditor-data:
     driver: local
