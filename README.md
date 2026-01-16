@@ -302,9 +302,6 @@ See [BENCHMARKS.md](BENCHMARKS.md) for details.
 
 Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
 
 ## 🔗 Links
 
