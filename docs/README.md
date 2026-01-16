@@ -30,8 +30,6 @@ This directory contains comprehensive documentation for the Smart Contract Secur
 - **[DEMO.md](DEMO.md)** - Original demo walkthrough
 - **[GEMINI_FIX.md](GEMINI_FIX.md)** - Historical Gemini fixes
 - **[FIXES_APPLIED.md](FIXES_APPLIED.md)** - Applied fixes log
-- **[GIT_PUSH.md](GIT_PUSH.md)** - Git push instructions
-- **[GITHUB_PUSH.md](GITHUB_PUSH.md)** - GitHub push guide
 
 ## Navigation
 
