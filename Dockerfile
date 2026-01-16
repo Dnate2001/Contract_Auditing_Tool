@@ -55,6 +55,9 @@ COPY --chown=auditor:auditor . .
 # Create data directory for artifacts
 RUN mkdir -p /data/artifacts && chown -R auditor:auditor /data
 
+# Create build directory for compilation artifacts
+RUN mkdir -p /app/build && chown -R auditor:auditor /app/build
+
 # Switch to non-root user
 USER auditor
 
