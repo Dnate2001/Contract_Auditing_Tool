@@ -83,7 +83,7 @@ git push origin main
 # 1. Create a new repository on GitHub (your account)
 
 # 2. Update remote
-git remote set-url origin https://github.com/YOUR_USERNAME/antigravity-auditor.git
+git remote set-url origin https://github.com/YOUR_USERNAME/contract-auditing-tool.git
 
 # 3. Push
 git push -u origin main
@@ -147,7 +147,7 @@ git remote set-url origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
 
 ### Need to create new repository?
 1. Go to GitHub → New Repository
-2. Name it (e.g., "antigravity-auditor")
+2. Name it (e.g., "contract-auditing-tool")
 3. Don't initialize with README
 4. Copy the repository URL
 5. Run: `git remote set-url origin <URL>`

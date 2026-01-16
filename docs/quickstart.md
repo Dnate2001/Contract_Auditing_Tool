@@ -1,6 +1,6 @@
 # Quickstart Guide
 
-Get Antigravity Auditor running in 5 minutes on a fresh Ubuntu 22.04 system.
+Get Smart Contract Auditor running in 5 minutes on a fresh Ubuntu 22.04 system.
 
 ## Prerequisites
 
@@ -18,8 +18,8 @@ sudo apt install -y wget curl git python3 python3-pip
 
 ### 2. Clone Repository
 ```bash
-git clone https://github.com/yourusername/antigravity-auditor
-cd antigravity-auditor
+git clone https://github.com/Dnate2001/Contract_Auditing_Tool
+cd Contract_Auditing_Tool
 ```
 
 ### 3. Install Python Dependencies
@@ -56,7 +56,7 @@ cat audit_report.md
 
 **Expected output**:
 ```
-🔮 ANTIGRAVITY AUDITOR
+🔮 SMART CONTRACT AUDITOR
 =====================
 ✓ Compiled BrokenToken.sol
 ✓ Found 5 vulnerabilities
@@ -155,8 +155,8 @@ CMD ["python3", "auditor_ai.py", "5"]
 
 Build and run:
 ```bash
-docker build -t antigravity-auditor .
-docker run antigravity-auditor
+docker build -t contract-auditing-tool .
+docker run contract-auditing-tool
 ```
 
 ## Verification Checklist
@@ -254,7 +254,7 @@ export GEMINI_API_KEY="your-key"
 ## Getting Help
 
 - **Documentation**: [Full docs](../README.md)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/antigravity-auditor/issues)
+- **Issues**: [GitHub Issues](https://github.com/Dnate2001/Contract_Auditing_Tool/issues)
 - **Examples**: [Benchmark contracts](../benchmarks/contracts/)
 
 ---

@@ -121,7 +121,7 @@ python3 tools/exporters.py artifacts/findings.json --output-dir reports
     {
       "tool": {
         "driver": {
-          "name": "Antigravity Smart Contract Auditor",
+          "name": "Smart Contract Security Auditor",
           "version": "1.0.0",
           "rules": [
             {
@@ -170,7 +170,7 @@ python3 tools/validate_sarif.py artifacts/report.sarif.json
 **Output:**
 ```
 ✅ SARIF file is valid!
-   Tool: Antigravity Smart Contract Auditor
+   Tool: Smart Contract Security Auditor
    Results: 2
    Rules: 2
 ```

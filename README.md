@@ -1,4 +1,4 @@
-# 🛡️ Antigravity Smart Contract Auditor
+# 🛡️ Smart Contract Security Auditor
 
 AI-powered security auditing tool that combines fuzzing, machine learning, and automated test generation to find vulnerabilities in Solidity smart contracts.
 
@@ -6,8 +6,8 @@ AI-powered security auditing tool that combines fuzzing, machine learning, and a
 
 ```bash
 # Clone and setup
-git clone https://github.com/yourusername/antigravity-auditor
-cd antigravity-auditor
+git clone https://github.com/Dnate2001/Contract_Auditing_Tool
+cd Contract_Auditing_Tool
 
 # Install dependencies
 pip3 install rich google-generativeai pytest
@@ -207,8 +207,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 🆘 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/antigravity-auditor/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/antigravity-auditor/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Dnate2001/Contract_Auditing_Tool/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Dnate2001/Contract_Auditing_Tool/discussions)
 - **Documentation**: [Full Docs](docs/)
 
 ---

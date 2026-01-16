@@ -1,4 +1,4 @@
-# 🎯 Demo Walkthrough - Antigravity Smart Contract Auditor
+# 🎯 Demo Walkthrough - Smart Contract Security Auditor
 
 This walkthrough demonstrates the complete functionality of the AI-powered smart contract auditing tool.
 
@@ -7,7 +7,7 @@ This walkthrough demonstrates the complete functionality of the AI-powered smart
 ### Step 1: Initial Setup
 
 ```bash
-cd /home/user/.gemini/antigravity/playground/electric-hawking
+cd /path/to/Contract_Auditing_Tool
 ls -la
 ```
 

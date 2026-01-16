@@ -2,7 +2,7 @@
 
 ## Overview
 
-The benchmark suite tests the Antigravity Auditor against 8 known vulnerable contracts to measure detection accuracy, AI validation effectiveness, and reproducer success rates.
+The benchmark suite tests the Smart Contract Auditor against 8 known vulnerable contracts to measure detection accuracy, AI validation effectiveness, and reproducer success rates.
 
 ## Benchmark Contracts
 
